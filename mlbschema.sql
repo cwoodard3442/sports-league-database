@@ -1,8 +1,11 @@
 DROP TABLE division cascade constraints;
 Drop table team cascade constraints;
 drop table stadium cascade constraints;
+drop table team_owner cascade constraints;
 drop table league_employee cascade constraints;
+drop table contract cascade constraints;
 drop sequence seqownid;
+drop sequence seqempID;
 
 CREATE TABLE division (
   division_name varchar2(50) not null,
@@ -11,7 +14,7 @@ CREATE TABLE division (
 
 CREATE TABLE team (
   team_name varchar2(20) not null,
-  home_city varchar2(15),
+  home varchar2(25),
   division_name varchar2(50) not null,
   PRIMARY KEY (team_name),
   FOREIGN KEY (division_name) references division(division_name)
@@ -27,17 +30,16 @@ CREATE TABLE stadium (
 );
 
 CREATE TABLE team_owner (
-  owner_id integer not null,
-  owner_fname varchar2(15) not null,
-  owner_lname varchar2(15) not null,
+  ownerid integer not null,
+  owner_fname varchar2(50),
+  owner_lname varchar2(15),
   team_name varchar2(20) not null,
-  PRIMARY KEY (owner_id),
+  PRIMARY KEY (ownerid),
   FOREIGN KEY (team_name) references team(team_name)
 );
 
 CREATE SEQUENCE seqownID INCREMENT BY 1 START WITH 1;
-Alter Table team_owner Modify (owner_lname varchar2 (15) null);
-Alter Table team_owner Modify (owner_fname varchar2 (50) null);
+
 
 CREATE TABLE league_employee (
   empid integer not null,
@@ -65,14 +67,12 @@ Modify (fname varchar2 (50));
 
 
 CREATE TABLE contract (
-  empid integer not null,
-  no_years integer not null,
-  worth integer not null,
+  empid integer,
+  no_years integer,
+  worth integer,
   PRIMARY KEY (empid),
   FOREIGN KEY (empid) references league_employee(empid)
 );
-Alter Table contract
-Modify(no_years integer null, worth null);
 
 CREATE SEQUENCE seqempID INCREMENT BY 1 START WITH 1;
 
